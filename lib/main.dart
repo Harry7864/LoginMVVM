@@ -4,6 +4,11 @@ import 'package:demo_task/viewmodels/preferences_viewmodel.dart';
 import 'package:demo_task/views/country_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'auth/modules/auth/providers/login_provider.dart';
+import 'auth/modules/auth/ui/login_page.dart';
+import 'auth/modules/home/provider/home_provider.dart';
+import 'auth/modules/home/ui/home.dart';
+import 'auth/utils/constants/route_constants.dart';
 import 'services/hive_service.dart';
 import 'services/notification_service.dart';
 import 'services/sqlite_service.dart';
@@ -32,6 +37,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PreferenceViewModel()),
         ChangeNotifierProvider(create: (_) => AddTaskViewModel()),
         ChangeNotifierProvider(create: (_) => CountryViewModel()),
+        ChangeNotifierProvider.value(value: LoginProvider()),
+        ChangeNotifierProvider.value(value: HomeProvider()),
       ],
       child: Consumer<PreferenceViewModel>(
         builder: (context, preferencesViewModel, child) {
@@ -40,6 +47,10 @@ class MyApp extends StatelessWidget {
                 ? ThemeData.dark()
                 : ThemeData.light(),
             home: const CountryListView(),
+            routes: {
+              RouteConstants.initialRoute : (context) => LoginPage(),
+              RouteConstants.homePage : (context) => Home()
+            },
           );
         },
       ),
